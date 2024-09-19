@@ -1,0 +1,38 @@
+/* Do everything in this file */
+h1, h2, h3, h4
+{
+    border-bottom: 1px solid red;
+    
+}
+h2
+{
+    clear: both;
+}
+figure
+{
+    float:right;
+    width: 40%;
+    margin-left: 100px;
+    img
+    {
+        width: 100%;
+    }
+}
+.tet
+{
+    
+    border: 1px dotted rgb(30, 254, 49);
+    float:left;
+    width:33%
+}
+
+footer
+{
+    clear:both;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: azure;
+    z-index: -6;
+}
+
