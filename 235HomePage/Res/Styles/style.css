@@ -1,0 +1,60 @@
+body
+{
+    background-color: #B0DAF1;
+}
+.projects
+{
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 auto;
+}
+.projectBlock
+{
+    width: 300px;
+    border: 15px solid #45364B;
+    padding: 50px;
+    margin: 20px;
+    flex: 0 0 600px;
+    background-color: #8D91C7;
+}
+.bio
+{
+    border: 5px solid #45364B;
+    margin-bottom: 50px;
+    background-color: #8D91C7;
+    padding: 15px;
+}
+.intro
+{
+    margin: 0 auto;
+    width: 50%;
+}
+.gitlink
+{
+    font-size: 20px;
+}
+a:link
+{
+    color: #7DDE92;
+    text-decoration: none;
+}
+a:visited
+{
+    color: #F45B69;
+    text-decoration: none;
+}
+a:hover
+{
+    color: #F45B69;
+    text-decoration: underline;
+}
+a:active
+{
+    color: #5603AD;
+    text-decoration: none;
+}
+.title
+{
+    margin: 0 auto;
+    width: 50%;
+}
