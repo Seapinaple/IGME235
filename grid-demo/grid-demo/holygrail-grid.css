@@ -15,6 +15,7 @@ html {
 html,
 body {
     margin: 0;
+    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(66,251,177,1) 70%, rgba(70,208,252,1) 100%);
 }
 
 header,
@@ -30,6 +31,7 @@ nav,
 aside,
 article {
     padding: .5rem;
+    background-color: white;
 }
 
 nav, aside {
@@ -37,7 +39,56 @@ nav, aside {
     border: 1px dotted black; 
 }
 
+aside
+{
+    display: none;
+}
+
 /*****************
 Grid Formatting  
 *****************/
+
+#wrapper
+{
+    display: grid;
+    grid-template-rows: 1fr 2fr 10fr 2fr 1fr;
+    
+    grid-template-areas: 
+        "header"
+        "navbar"
+        "content"
+        "sidebar"
+        "footer";
+
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media screen and (min-width:760px) 
+{
+    #wrapper
+    {
+        display: grid;
+        grid-template-columns: 20% 1fr 20%;
+        grid-template-rows: 1fr 10fr 1fr;
+        grid-template-areas: 
+            "header header  header"
+            "navbar content sidebar"
+            "footer footer  footer";
+
+
+    }
+
+    aside
+    {
+        display: block;
+    }
+}
+
+header{grid-area: header;}
+nav {grid-area: navbar;}
+article {grid-area: content;}
+aside {grid-area: sidebar;}
+footer {grid-area: footer;}
 
