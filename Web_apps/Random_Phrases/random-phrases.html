@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>random-phrases</title>
+    <style>
+
+        #button
+        {
+            width:10vw; position: absolute; top: 50%; left: 45%; display: block;width: 10vw; height: 5em; background-color: firebrick;
+        }
+        #button:hover
+        {
+            background-color: blueviolet;
+        }
+
+
+    </style>
 
     <script>
-        let mesages = ["message1", "message2", "message3", "message4", "message5"];
+        let mesages = ["I'm tasty on the inside, I'm curvy not wide. If you step on my hide, you'll go for a ride. What am I?", "I only point in one direction, but I guide people around the world with perfection. What am I?", "Die without me, never thank me. Always watching, never speaking. Always lurking, never seen. What am I?", "A cloud was my mother, the wind is my father, my son is the cool stream, and my daughter is the fruit of the land. A rainbow is my bed, the earth my final resting place, what am I?", "What stands on one leg with its heart in its head?"];
         let random = Math.floor(Math.random() * 5);
         let prevRandom = random;
 
@@ -22,24 +35,24 @@
 </head>
 <body onload="displayQuote()" style="background-color: aqua;">
     <div id = "container" style = "width: 50vw; justify-content: center; margin: auto;">
-        <div style="width: 20vw;  position:absolute; top: 10%; left: 40%; border: 1px solid black;">
+        <div style="width: 20vw;  position:absolute; top: 10%; left: 40%;">
             <h1 style="text-align: center;">
-                Title
+                The Riddling
             </h1>
             
         </div>
-        <img src = "Img/placeholder.png" alt = "bgimg" width="100%" style = "z-index: -1;">
+        <img src = "Img/qmarks.avif" alt = "bgimg" style = "z-index: -1; width: 100%;">
 
 
-        <div id = "textbox" style="width:30vw; position: absolute; top: 30%; left: 35%;">
+        <div id = "textbox" style="width:30vw; position: absolute; top: 30%; left: 35%; background-color: rgb(219, 182, 137, 0.5);">
         <p id = "randomtext">
         </p>
         </div>
-        <div id = "button" style="width:10vw; position: absolute; top: 60%; left: 45%; display: block;">
-            <Button type="button" onclick="displayQuote()" style="width: 100%; height: 5em;">Button</button>
-        </div>
+        
+            <Button id = "button" type="button" onclick="displayQuote()" >Next Riddle</button>
+        
 
-        <div id = "nameBlock" style = "width:10vw; position: absolute; top: 70%; left: 45%;">
+        <div id = "nameBlock" style = "width:10vw; position: absolute; top: 58%; left: 45%;">
             <p style = "text-align: center;">
                 Max Murphy
             </p>
