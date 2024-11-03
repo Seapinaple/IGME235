@@ -40,12 +40,24 @@
 <script>
 /* Write your code here! */
 
-let buttons = document.querySelectorAll('[name-colorGroup]');
+let buttons = document.querySelectorAll('input[name = "colorGroup"]');
 let text = document.getElementById("info");
+let color = "red";
+let submit = document.getElementById("colorButton");
+
 
 for (let element of buttons) {
-    console.log(element);
+    element.addEventListener("change", function() {text.innerHTML = "You have selected \"" + element.value + "\"!"; color = element.value});
 }
+submit.addEventListener("click", function(){
+	let legend = document.querySelectorAll("div#colorform > legend")[0];
+	legend.style.color = color;
+	text.innerHTML = ("Your FINAL CHOICE is \"" + color + "\"");
+});
+
+
+
+
 
 </script>
 </body>
