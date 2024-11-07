@@ -91,7 +91,7 @@
      //9
      let results = obj.data;
      console.log("Results.length = " + results.length)
-     let bigString = "<p><i>Here are " + results.length + " results for '" + displayTerm + "'</i></p>";
+     let bigString = "";
 
      //10
      for (let i = 0; i < results.length; i++)
@@ -99,15 +99,15 @@
          let result = results[i];
 
          //11
-         let smallURL = result.images.fixed_width_small.url;
+         let smallURL = result.images.fixed_width_downsampled.url;
          if (!smallURL) smallURL = "images/no-image-found.png";
 
          //12
          let url = result.url;
 
          //13
-         let line = `<div class = 'result'><img src = '${smallURL}' title = '${result.id}' />`;
-         line += `<span><a target = '_blank' href = '${url}'>View on Giphy</a><p>Rating: ${result.rating}</p></div>`;
+         let line = `<div class = 'result'><a target = '_blank' href = '${url}'><img src = '${smallURL}' title = '${result.title}' alt = '${result.title}'/></a>`;
+         line += `<span><a target = '_blank' href = '${url}'>${result.title}</a><p>Rating: ${result.rating.toUpperCase()}</p></div>`;
 
          //14
 
@@ -119,7 +119,7 @@
      document.querySelector("#content").innerHTML = bigString;
 
      //17
-     document.querySelector("#status").innerHTML = "<b>Success!</b>"
+     document.querySelector("#status").innerHTML = "<b><p><i>Here are " + results.length + " results for '" + displayTerm + "'</i></p></b>"
  }
 
  function dataError(e)
