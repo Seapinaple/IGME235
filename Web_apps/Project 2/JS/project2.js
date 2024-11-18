@@ -68,48 +68,45 @@ function getData(url)
 
 console.log(obj);
 
-     //8
-     if (!obj.data || obj.data.length == 0)
-     {
-         document.querySelector("#status").innerHTML = "<b>No results found for '" + displayTerm + "'</b>"
-         return;
-     }
-
-     //9
-     let results = obj.data;
-     console.log("Results.length = " + results.length)
-     let bigString = "";
-
-     //10
-     for (let i = 0; i < results.length; i++)
-     {
-         let result = results[i];
-
-         //11
-         let smallURL = result.image_uris.png;
-         if (!smallURL) smallURL = "images/no-image-found.png";
-
-         //12
-         let url = result.url;
-
-         //13
-         let line = `<div class = 'result'><a target = '_blank' href = '${url}'><img src = '${smallURL}' title = '${result.title}' alt = '${result.title}'/></a>`;
-         line += `<span><a target = '_blank' href = '${url}'>${result.title}</a><p>Rating: ${result.rating.toUpperCase()}</p></div>`;
-
-         //14
-
-         //15
-         bigString += line;
-     }
-
-     //16
-     document.querySelector("#content").innerHTML = bigString;
-
-     //17
-     document.querySelector("#status").innerHTML = "<b><p><i>Here are " + results.length + " results for '" + displayTerm + "'</i></p></b>"
+    addImage(obj.image_uris.normal);
  }
 
  function dataError(e)
  {
      console.log("An error ossured");
+ }
+
+ function addImage(imgurl)
+ {
+    const imageUrl = imgurl;  // Get the URL from the input
+
+    if (imageUrl) {
+      // Validate that the URL seems to be an image
+      if (isValidImageUrl(imageUrl)) {
+        // Create an anchor tag to wrap the image (optional for linking)
+        const anchor = document.createElement('a');
+        anchor.href = imageUrl;
+        anchor.target = '_blank';  // Opens image in a new tab
+  
+        // Create the image element
+        const img = document.createElement('img');
+        img.src = imageUrl;
+  
+        // Add the image to the anchor and the anchor to the grid
+        anchor.appendChild(img);
+        imageGrid.appendChild(anchor);
+  
+        // Clear the input field after adding the image
+        imageUrlInput.value = '';
+      } else {
+        alert('Please enter a valid image URL.');
+      }
+    } else {
+      alert('Please enter an image URL.');
+    }
+ }
+
+ function isValidImageUrl(url)
+ {
+    return true;
  }

@@ -3,7 +3,8 @@
 <head>
 	<meta charset="utf-8" />
  	<title>Giphy Finder</title>
-	 <script src="JS/project2.js"></script>
+	 <link rel="stylesheet" href="CSS/style.css">
+	 <script src="JS/decklist.js"></script>
   
 </head>
 <body>
@@ -13,7 +14,7 @@
 
 <div class="widgets">
 	Search Term -> 
-	<input id="searchterm" type="text" size="20" maxlength="20" autofocus value="cats" />
+	<input id="searchterm" type="text" size="20" maxlength="9999999" autofocus value="cats" />
 </div>
 
 <div class="widgets">
@@ -34,10 +35,11 @@
 <hr>
 
 <h2>Results</h2>
-<div id="content">
-	<p>No data yet!</p>
-</div>
- 
+<div class="container">
+    <input type="text" id="imageUrlInput" placeholder="Enter image URL" />
+    <button id="addImageButton">Add Image</button>
+    <div id="imageGrid" class="image-grid"></div>
+  </div>
 
 </body>
 </html>
