@@ -1,7 +1,21 @@
-window.onload = (e) => {document.querySelector("#search").onclick = searchButtonClicked};
-
+window.onload = (e) => {document.querySelector("#search").onclick = searchButtonClickedDeckList};
+window.onload = (e) => {document.querySelector("#Type").addEventListener("change", updateButtonAction)};
 let displayTerm = "";
-function searchButtonClicked(){
+updateButtonAction();
+function updateButtonAction() {
+  let selector = document.querySelector("#Type");
+  console.log(selector);
+  let selectorValue = selector.value;
+  let button = document.querySelector("#search");
+
+  if (selectorValue === "Partial_Matches") {
+    button.onclick = action1;
+  } else if (selectorValue === "Bulk_Proxy") {
+    button.onclick = searchButtonClickedDeckList;
+  }
+}
+function searchButtonClickedDeckList(){
+  displayTerm = "";
     console.log("searchButtonClicked() called");
 
     const API_URL = "https://api.scryfall.com/cards/named?exact=";
