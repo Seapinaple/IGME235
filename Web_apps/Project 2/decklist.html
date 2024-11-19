@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decklist</title>
+    <link rel="stylesheet" href="CSS/decklist.css">
+</head>
+<body>
+    
+    
+        <div id="imageGrid" class="image-grid"></div>
+      
+
+      <script>
+        const imgresults = JSON.parse(localStorage.getItem('imagePath'));
+        console.log(imgresults);
+
+        for (const element of imgresults) {
+            for (let j = 1; j <= element.num; j++)
+        {
+            addImage(element.imgUrl);
+        }
+            
+        }
+
+
+    function addImage(imgurl)
+    {
+    const imageUrl = imgurl;  // Get the URL from the input
+
+    if (imageUrl) {
+      // Validate that the URL seems to be an image
+      if (true) {
+        // Create an anchor tag to wrap the image (optional for linking)
+        const anchor = document.createElement('a');
+        anchor.href = imageUrl;
+        anchor.target = '_blank';  // Opens image in a new tab
+  
+        // Create the image element
+        const img = document.createElement('img');
+        img.src = imageUrl;
+  
+        // Add the image to the anchor and the anchor to the grid
+        anchor.appendChild(img);
+        imageGrid.appendChild(anchor);
+  
+        // Clear the input field after adding the image
+      }
+    } else {
+      alert('Please enter an image URL.');
+    }
+    }
+      </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+@page {
+    size: 8.5in 11in; /* Standard letter size */
+    margin: 0in;     /* Small margin for the page */
+  }
+
+body {
+    margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+  }
+  
+  
+  
+  
+  
+  button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .image-grid {
+    display: grid;
+      grid-template-columns: repeat(3, 2.5in); /* 3 cards per row, each 2.5in wide */
+      grid-template-rows: repeat(3, 3.5in);    /* 3 cards per column, each 3.5in tall */
+      gap: 0.1;                             /* Small gap between cards */
+      width: 8.5in;                            /* Full width of the page */
+      height: 11in;                          /* Full height of the page minus any small gaps */
+      padding: 0.25in;                         /* Padding to avoid overflow */
+      box-sizing: border-box;
+  }
+  
+  .image-grid img {
+    width: 2.5in;
+    height: 3.5in;
+    background-color: #e1e1e1;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #000;
+  }
+  
+  a {
+    display: block;
+    text-decoration: none;
+  }

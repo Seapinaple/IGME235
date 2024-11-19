@@ -1,6 +1,9 @@
 window.onload = (e) => {document.querySelector("#search").onclick = searchButtonClickedDeckList};
 window.onload = (e) => {document.querySelector("#Type").addEventListener("change", updateButtonAction)};
 let displayTerm = "";
+let results;
+
+
 updateButtonAction();
 function updateButtonAction() {
   let selector = document.querySelector("#Type");
@@ -14,7 +17,10 @@ function updateButtonAction() {
     button.onclick = searchButtonClickedDeckList;
   }
 }
+
+
 function searchButtonClickedDeckList(){
+  clearGrid();
   displayTerm = "";
     console.log("searchButtonClicked() called");
 
@@ -23,19 +29,25 @@ function searchButtonClickedDeckList(){
 
 
 
-    const results = parseInput(removeCommasAndApostrophes(document.querySelector("#searchterm").value));
+    results = parseInput(removeCommasAndApostrophes(document.querySelector("#searchterm").value));
     console.log(document.querySelector("#searchterm").value);
     console.log(results);
 
     let url  = "";
     for(let i = 0; i < results.length; i++)
     {
-        url = API_URL + results[i].name;
+        
         console.log(url);
-        getData(url);
-        pauseWithSetTimeout();
-
-        url = "";
+        for (let j = 0; j < results[i].num; j++)
+        {
+          url = API_URL + results[i].name;
+          getData(url);
+        
+          pauseWithSetTimeout();
+  
+          url = "";
+        }
+        
     }
     
 
@@ -51,8 +63,10 @@ function searchButtonClickedDeckList(){
     
 }
 
+
+
 function getData(url)
- {
+{
      console.log("call");
      //1
      let xhr = new XMLHttpRequest();
@@ -66,7 +80,7 @@ function getData(url)
      //4
      xhr.open("GET", url);
      xhr.send();
- }
+}
 
  function dataLoaded(e)
  {
@@ -83,7 +97,39 @@ function getData(url)
 
 console.log(obj);
 
-    addImage(obj.image_uris.normal);
+let legalityselector = document.querySelector("#Format");
+let legalityselectorValue = legalityselector.value;
+
+
+
+switch (legalityselectorValue)
+{
+  case "Standard":
+    addImage(obj.image_uris.normal, (obj.legalities.standard == "legal"));
+  break;
+
+  case "Pioneer":
+    addImage(obj.image_uris.normal, (obj.legalities.pioneer == "legal"));
+
+  break;
+
+  case "Modern":
+    addImage(obj.image_uris.normal, (obj.legalities.modern == "legal"));
+
+  break;
+
+  case "Legacy":
+    addImage(obj.image_uris.normal, (obj.legalities.legacy == "legal"));
+
+  break;
+
+  default:
+
+}
+
+results.find(asdf => asdf.name === removeCommasAndApostrophes(obj.name)).imgUrl = obj.image_uris.normal;
+
+
  }
 
  function dataError(e)
@@ -92,30 +138,26 @@ console.log(obj);
  }
 
 
-function addImage(imgurl)
+function addImage(imgurl, valid)
  {
-    const imageUrl = imgurl;  // Get the URL from the input
+    const imageUrl = imgurl;  
 
     if (imageUrl) {
-      // Validate that the URL seems to be an image
       if (true) {
-        // Create an anchor tag to wrap the image (optional for linking)
         const anchor = document.createElement('a');
         anchor.href = imageUrl;
-        anchor.target = '_blank';  // Opens image in a new tab
+        anchor.target = '_blank';  
   
-        // Create the image element
         const img = document.createElement('img');
+      if (!valid)
+      {
+        img.style.filter = 'sepia(100%) saturate(500%) hue-rotate(-50deg)';
+      }
         img.src = imageUrl;
   
-        // Add the image to the anchor and the anchor to the grid
         anchor.appendChild(img);
         imageGrid.appendChild(anchor);
   
-        // Clear the input field after adding the image
-        imageUrlInput.value = '';
-      } else {
-        alert('Please enter a valid image URL.');
       }
     } else {
       alert('Please enter an image URL.');
@@ -123,20 +165,18 @@ function addImage(imgurl)
  }
 
  function parseInput(input) {
-    // Define the regular expression to match 'num name' format
     const regex = /(\d+)\s*([a-zA-Z\s]+)/g;
+    
     const result = [];
     let match;
   
-    // Use regex.exec() to find all matches in the input string
     while ((match = regex.exec(input)) !== null) {
-      // Create an object with 'num' and 'name' properties
       const obj = {
-        num: parseInt(match[1], 10),  // Convert num to an integer
-        name: match[2].trim()         // Trim name to remove extra spaces
+        num: parseInt(match[1], 10),  
+        name: match[2].trim(),        
+        imgUrl: ""
       };
   
-      // Push the object into the result array
       result.push(obj);
     }
   
@@ -149,6 +189,22 @@ function addImage(imgurl)
     }, 50);
   }
   function removeCommasAndApostrophes(input) {
-    // Use replace() with a regular expression to remove commas and apostrophes
     return input.replace(/[,'"]/g, '');
   }
+
+  function clearGrid() {
+    const grid = document.getElementById('imageGrid');
+    while (grid.firstChild) {
+      grid.removeChild(grid.firstChild);
+    }
+  }
+
+
+
+ document.getElementById('changePageButton').addEventListener('click', function() {
+
+  localStorage.setItem('imagePath', JSON.stringify(results));
+  console.log(results);
+  const url = "decklist.html";  
+  window.open(url, '_blank');
+});
