@@ -1,50 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
-  }
-  
-  .container {
-    text-align: center;
-    width: 80%;
-    max-width: 1000px;
+  font-family: Arial, sans-serif;
+  background-color: #181818;
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-start;
+}
+
+header {
+  background-image: url('path_to_your_banner_image.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.widgets {
+  margin: 20px 0;
+  padding: 0 10vw;
+  text-align: center;
+}
+
+#searchterm {
+  padding: 12px;
+  font-size: 1rem;
+  width: 60%;
+  max-width: 600px;
+  height: 150px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #2e2e2e;
+  color: #fff;
+  resize: none;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+select {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  margin: 0 10px;
+  background-color: #2e2e2e;
+  color: #fff;
+}
+
+#search, #changePageButton {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background-color: #00aaff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#search:hover, #changePageButton:hover {
+  background-color: #0088cc;
+}
+
+#imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  justify-content: center;
+  padding: 0 10vw;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+#imageGrid a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#imageGrid img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  margin-left: 10vw;
+  font-size: 1.5rem;
+  color: #e0e0e0;
+}
+
+@media screen and (max-width: 768px) {
+  header {
+      height: 150px;
   }
 
-  
-  button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+  #searchterm {
+      width: 80%;
   }
-  
-  button:hover {
-    background-color: #45a049;
+
+  .widgets {
+      padding: 0 5vw;
   }
-  
-  .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-    padding: 10px;
-    max-width: 1000px;
-    margin: 0 auto;
+
+  #imageGrid {
+      padding: 0 5vw;
   }
-  
-  .image-grid img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  h2, #changePageButton {
+      margin-left: 5vw;
   }
-  
-  a {
-    display: block;
-    text-decoration: none;
-  }
+}
