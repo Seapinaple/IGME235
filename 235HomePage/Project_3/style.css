@@ -1,0 +1,82 @@
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+header p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Styling for the proposal content */
+.proposal {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.proposal h2, .proposal h3 {
+    color: #333;
+}
+
+.proposal p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Style for images */
+.mockup {
+    display: block;  
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer styling */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .proposal {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+    
+    header p {
+        font-size: 14px;
+    }
+}
