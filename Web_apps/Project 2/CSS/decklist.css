@@ -1,6 +1,6 @@
 @page {
-    size: 8.5in 11in; /* Standard letter size */
-    margin: 0in;     /* Small margin for the page */
+    size: 8.5in 11in; 
+    margin: 0in;     
   }
 
 body {
@@ -31,12 +31,12 @@ body {
   
   .image-grid {
     display: grid;
-      grid-template-columns: repeat(3, 2.5in); /* 3 cards per row, each 2.5in wide */
-      grid-template-rows: repeat(3, 3.5in);    /* 3 cards per column, each 3.5in tall */
-      gap: 0.1;                             /* Small gap between cards */
-      width: 8.5in;                            /* Full width of the page */
-      height: 11in;                          /* Full height of the page minus any small gaps */
-      padding: 0.25in;                         /* Padding to avoid overflow */
+      grid-template-columns: repeat(3, 2.5in);
+      grid-template-rows: repeat(3, 3.5in);    
+      gap: 0.1;                         
+      width: 8.5in;                         
+      height: 11in;                       
+      padding: 0.25in;                     
       box-sizing: border-box;
   }
   

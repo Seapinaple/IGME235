@@ -1,5 +1,12 @@
 window.onload = (e) => {document.querySelector("#search").onclick = searchButtonClickedDeckList};
 window.onload = (e) => {document.querySelector("#Type").addEventListener("change", updateButtonAction)};
+window.onload = function() {
+  const lastSearchTerm = localStorage.getItem('lastSearchTerm');
+  if (lastSearchTerm) {
+    document.getElementById('searchterm').value = lastSearchTerm;
+  }
+};
+
 let displayTerm = "";
 let results;
 
@@ -20,6 +27,8 @@ function updateButtonAction() {
 
 
 function searchButtonClickedDeckList(){
+
+  saveSearchTerm();
   clearGrid();
   displayTerm = "";
     console.log("searchButtonClicked() called");
@@ -38,7 +47,7 @@ function searchButtonClickedDeckList(){
     {
         
         console.log(url);
-        for (let j = 0; j < results[i].num; j++)
+        for (let j = 0; j < 1; j++)
         {
           url = API_URL + results[i].name;
           getData(url);
@@ -127,11 +136,16 @@ switch (legalityselectorValue)
 
 }
 
-results.find(asdf => asdf.name === removeCommasAndApostrophes(obj.name)).imgUrl = obj.image_uris.normal;
+results.find(asdf => asdf.name === removeCommasAndApostrophes(splitBeforeSlash(obj.name))).imgUrl = obj.image_uris.normal;
 
 
  }
 
+ function splitBeforeSlash(input) {
+  const parts = input.split(' /');
+  console.log(parts[0]);
+  return parts[0];
+}
  function dataError(e)
  {
      console.log("An error ossured");
@@ -165,7 +179,9 @@ function addImage(imgurl, valid)
  }
 
  function parseInput(input) {
-    const regex = /(\d+)\s*([a-zA-Z\s]+)/g;
+  input = input.replace(/\//g, ' // ');
+    
+    const regex = /(\d+)\s*([a-zA-Z\s]+(?:\s+[a-zA-Z\s]+)*)/g;
     
     const result = [];
     let match;
@@ -208,3 +224,8 @@ function addImage(imgurl, valid)
   const url = "decklist.html";  
   window.open(url, '_blank');
 });
+
+function saveSearchTerm() {
+  const searchTerm = document.getElementById('searchterm').value;
+  localStorage.setItem('lastSearchTerm', searchTerm);
+}

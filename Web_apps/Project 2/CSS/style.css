@@ -15,7 +15,6 @@ body {
 }
 
 header {
-  background-image: url('path_to_your_banner_image.jpg');
   background-size: cover;
   background-position: center;
   height: 200px;

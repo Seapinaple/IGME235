@@ -27,25 +27,17 @@
 
     function addImage(imgurl)
     {
-    const imageUrl = imgurl;  // Get the URL from the input
+    const imageUrl = imgurl;   
 
-    if (imageUrl) {
-      // Validate that the URL seems to be an image
-      if (true) {
-        // Create an anchor tag to wrap the image (optional for linking)
+    if (imageUrl) { 
+      if (true) { 
         const anchor = document.createElement('a');
         anchor.href = imageUrl;
-        anchor.target = '_blank';  // Opens image in a new tab
-  
-        // Create the image element
+        anchor.target = '_blank';
         const img = document.createElement('img');
         img.src = imageUrl;
-  
-        // Add the image to the anchor and the anchor to the grid
         anchor.appendChild(img);
         imageGrid.appendChild(anchor);
-  
-        // Clear the input field after adding the image
       }
     } else {
       alert('Please enter an image URL.');
