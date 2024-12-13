@@ -90,7 +90,7 @@ class Player extends PIXI.Sprite
 
     collision(wall, vect)
     {
-        if (rectsIntersect(this.rect, wall.wallRect)) {
+        if (rectsIntersect(this, wall)) { // was this.rect and wall.rect, changing to the sprites themsel
             console.log ("hithi");
             if (vect.x > 0) {
                 this.x = wall.center.x - player.width; 
