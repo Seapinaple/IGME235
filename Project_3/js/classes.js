@@ -163,3 +163,57 @@ class Wall extends PIXI.Sprite
         console.log(this.wallRect);
     }
 }
+
+class Rat extends PIXI.Sprite
+{
+    constructor(texture, x = 0, y = 0, speed = 0, radius, direction)
+    {
+        super(texture);
+        this.anchor.set(0.5, 0.5);
+        this.scale.set((radius / 2) / texture.width);
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.startpos = new Point(x, y);
+        this.rect = new PIXI.Rectangle(this.x, this.y, this.width, this.height);
+        this.direction = direction;
+        this.swapped = false;
+    }
+
+
+    update(walls, player)
+    {
+        this.swapped = false;
+        move();
+        collide(walls, player);
+    }
+
+    move()
+    {
+        if (this.direction.x !== 0)
+        {
+            this.x += this.direction.x;
+        }
+        if (this.direction.x !== 0)
+        {
+            this.y += this.direction.y;
+        }
+        
+    }
+
+    collide(walls, player)
+    {
+        for (const element of walls)
+        {
+            if (rectsIntersect(this, element) && !this.swapped)
+            {
+                this.direction *= -1;
+                this.swapped = true;
+            }
+        }
+        if (rectsIntersect(this, player))
+        {
+            // do something tht involves deleting this
+        }
+    }
+}
