@@ -23,6 +23,24 @@ let playerMoveVector;
 
 let finalScoreText;
 
+let walls;
+
+const lvl1 = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w", "w", "w", "e", "w", "w", "w", "w", "e", "e", "e", "w", "w", "w", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w", "w", "w", "w", "e", "e", "w", "e", "e", "e", "w", "w", "w"],
+["w", "e", "w", "w", "e", "w", "w", "e", "w", "w", "e", "w", "w", "w", "w", "e", "w", "w", "e", "w", "w", "e", "w", "w", "w"],
+["w", "e", "e", "e", "w", "w", "w", "w", "e", "w", "e", "e", "w", "w", "w", "e", "e", "w", "w", "w", "w", "w", "e", "w", "w"],
+["w", "e", "w", "w", "w", "e", "w", "e", "e", "w", "e", "w", "e", "w", "w", "w", "w", "w", "w", "w", "e", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "e", "w", "w", "w", "e", "w", "w", "w", "w", "w", "w", "w", "w", "w", "e", "w", "e", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "e", "e", "w", "w", "w", "e", "w", "w", "w", "w", "e", "w", "w", "e", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "e", "w", "w", "w", "w", "e", "w", "w", "w", "w", "w", "w", "w", "e", "e", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "e", "e", "w", "w", "e", "e", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "e", "e", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w",]]; // 15 tall by 25 wide
+
 // Load all assets
 loadImages();
 
@@ -43,7 +61,7 @@ async function loadImages() {
 }
 
 async function setup() {
-  await app.init({ width: 600, height: 600 });
+  await app.init({ width: 850, height: 600 });
 
   document.body.appendChild(app.canvas);
 
@@ -65,19 +83,19 @@ async function setup() {
   // #4 - Create labels for all 3 scenes
   CreateLabelsAndButtons();
   // #5 - Create player
-  player = new Player(assets.player, 0, 0, 5);
+  player = new Player(assets.player, 200, 200, 1.5, (sceneWidth / 26));
   gameScene.addChild(player);
   playerMoveVector = new Vector();
   // #6 - Load Sounds
  
-
+  walls = {};
   // #7 - Load sprite sheet
-
   // #8 - Start update loop
   app.ticker.add(gameLoop);
 
   // #9 - Start listening for click events on the canvas
-
+  walls = [];
+  setupLevel(lvl1);
   // Now our `startScene` is visible
   // Clicking the button calls startGame()
 
@@ -196,13 +214,13 @@ function CreateLabelsAndButtons()
   scoreLabel = new PIXI.Text("", textStyle);
   scoreLabel.x = 5;
   scoreLabel.y = 5;
-  gameScene.addChild(scoreLabel);
+  //gameScene.addChild(scoreLabel);
   increaseScoreBy(0);
 
   lifeLabel = new PIXI.Text("", textStyle);
   lifeLabel.x = 5;
   lifeLabel.y = 26;
-  gameScene.addChild(lifeLabel);
+  //gameScene.addChild(lifeLabel);
   decreaseLifeBy(0);
 
   // 3 - set up `gameOverScene`
@@ -290,7 +308,7 @@ function gameLoop()
 
 
     // #2 - Move Player
-    player.update(playerMoveVector);
+    player.update(playerMoveVector, walls);
   let mousePosition = app.renderer.events.pointer.global;
 
   let amt = 6 * dt;
@@ -371,3 +389,35 @@ function createExplosion(x, y, frameWidth, frameHeight)
   gameScene.addChild(expl);
   expl.play();
 }
+
+function setupLevel(lvlFile)
+{
+  const tileWidth = ((sceneWidth / (lvlFile[1].length)));
+  let currLoc = new Point(0, 0);
+  
+  for (let y = 0; y < lvlFile.length; y++) 
+    {
+    for (let x = 0; x < lvlFile[y].length; x++)
+      {
+        console.log(`grid[${y}][${x}] = ${lvlFile[y][x]}`);
+        if (lvlFile[y][x] === "e")
+        {
+
+        }
+        else if (lvlFile[y][x] === "w")
+        {
+          let newWall = new Wall(assets.player, currLoc, tileWidth);
+          walls.push(newWall);
+          gameScene.addChild(newWall);
+          
+          
+        }
+        currLoc.x += tileWidth;
+      } 
+      currLoc.x = 0;
+      currLoc.y += tileWidth;
+    }
+
+    console.log(walls);
+}
+

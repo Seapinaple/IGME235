@@ -1,14 +1,15 @@
 class Player extends PIXI.Sprite
 {
-    constructor(texture, x = 0, y = 0, speed = 0)
+    constructor(texture, x = 0, y = 0, speed = 0, radius)
     {
         super(texture);
         this.anchor.set(0.5, 0.5);
-        this.scale.set(0.1);
+        this.scale.set((radius / 2) / texture.width);
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.startpos = new Point(x, y);
+        this.rect = new PIXI.Rectangle(this.x, this.y, this.width, this.height);
     }
 
     
@@ -18,7 +19,7 @@ class Player extends PIXI.Sprite
         this.keepInBounds();
         for (const element of walls)
         {
-            this.collision(wall);    
+            this.collision(element, moveVect);    
         }
         this.startpos.x = this.x;
         this.startpos.y = this.y;
@@ -36,6 +37,8 @@ class Player extends PIXI.Sprite
         moveVect.normalize();
         this.x += moveVect.normalX * this.speed;
         this.y += moveVect.normalY * this.speed;
+        this.rect.x = this.x;
+        this.rect.y = this.y;
     }
     keepInBounds()
     {
@@ -56,31 +59,54 @@ class Player extends PIXI.Sprite
             this.y = 0 + ((this.texture.height * this.scale.y) /2 );
         }
     }
-    collision(wall)
+    // collision(wall)
+    // {
+    //     let point = new Point(this.x, this.y);
+    //     let radius = ((this.texture.width * this.scale.x) / 2);
+
+    //     if (isCollide(point, radius, wall.center, wall.radius))
+    //     {
+    //         let pte = new Point (point.x, (point.y - radius));
+    //         let pbe = new Point (point.x, (point.y + radius));
+    //         let pre = new Point ((point.x - radius), point.y);
+    //         let ple = new Point ((point.x + radius), point.y);
+
+    //         let ote = new Point (wall.center.x, (wall.center.y - wall.radius));
+    //         let obe = new Point (wall.center.x, (wall.center.y + wall.radius));
+    //         let ore = new Point ((wall.center.x - wall.radius), wall.center.y);
+    //         let ole = new Point ((wall.center.x + wall.radius), wall.center.y);
+
+    //         if ((pte.y < obe.y) || (pbe.y > ote.y))
+    //         {
+    //             this.y = this.startpos.y;
+    //         }
+
+    //         if ((pte.x < obe.x) || (pbe.x > ote.x))
+    //         {
+    //             this.x = this.startpos.x;
+    //         }
+    //     }
+    // }
+
+    collision(wall, vect)
     {
-        let point = new Point(this.x, this.y);
-        let radius = ((this.texture.width * this.scale.x) / 2);
-
-        if (isCollide(point, radius, wall.center, wall.radius))
-        {
-            let pte = new Point (point.x, (point.y - radius));
-            let pbe = new Point (point.x, (point.y + radius));
-            let pre = new Point ((point.x - radius), point.y);
-            let ple = new Point ((point.x + radius), point.y);
-
-            let ote = new Point (wall.center.x, (wall.center.y - wall.radius));
-            let obe = new Point (wall.center.x, (wall.center.y + wall.radius));
-            let ore = new Point ((wall.center.x - wall.radius), wall.center.y);
-            let ole = new Point ((wall.center.x + wall.radius), wall.center.y);
-
-            if ((pte.y < obe.y) || (pbe.y > ote.y))
-            {
-                this.y = this.startpos.y;
+        if (rectsIntersect(this.rect, wall.wallRect)) {
+            console.log ("hithi");
+            if (vect.x > 0) {
+                this.x = wall.center.x - player.width; 
+                console.log(wall.center);
             }
-
-            if ((pte.x < obe.x) || (pbe.x > ote.x))
-            {
-                this.x = this.startpos.x;
+            if (vect.x < 0) {
+                this.x = wall.center.x + wall.width; 
+                console.log(wall.center);
+            }
+            if (vect.y > 0) {
+                this.y = wall.center.y - player.height; 
+                console.log(wall.center);
+            }
+            if (vect.y < 0) {
+                this.y = wall.center.y + wall.height; 
+                console.log(wall.center);
             }
         }
     }
@@ -124,13 +150,16 @@ class Point
 
 class Wall extends PIXI.Sprite
 {
-    // Must take a point as the center
-    constructor(texture, center, radius)
+    // Must take a point as the center center is top left corner
+    constructor(texture, center, width)
     {
         super(texture);
-        this.anchor.set(0.5, 0.5);
-        this.scale.set((radius * 2) / texture.width);
+        this.anchor.set(0, 0);
+        this.scale.set((width) / texture.width);
         this.center = center;
-        this.radius = radius;
+        this.radius = width;
+        this.position.set(center.x, center.y);
+        this.wallRect = new PIXI.Rectangle(this.x, this.y, width, width);
+        console.log(this.wallRect);
     }
 }

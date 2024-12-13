@@ -26,3 +26,9 @@
 		let yOverlap = Math.abs(o1C.y - o2C.y) < (o1R + o2R)
 		return xOverlap && yOverlap;
 	}
+
+	function rectsIntersect(a,b){
+		var ab = a.getBounds();
+		var bb = b.getBounds();
+		return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+	}
