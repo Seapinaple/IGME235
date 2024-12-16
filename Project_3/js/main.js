@@ -24,7 +24,11 @@ let playerMoveVector;
 let finalScoreText;
 
 let walls;
+let rats;
+let exit;
 
+let mouseSprites;
+// level maps
 const lvl1 = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
 ["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w", "w", "w", "e", "w", "w", "w", "w", "e", "e", "e", "w", "w", "w", "w"],
 ["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w", "w", "w", "w", "e", "e", "w", "e", "e", "e", "w", "w", "w"],
@@ -40,6 +44,23 @@ const lvl1 = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", 
 ["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
 ["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
 ["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w",]]; // 15 tall by 25 wide
+const lvl2 = [["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "r", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "r", "e", "e", "e", "w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "r", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "e", "e", "e", "e", "e", "e", "e", "e", "e", "x", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "w"],
+["w", "w", "e", "e", "w", "w", "w", "w", "e", "w", "w", "w", "w", "e", "w", "w", "w", "e", "e", "w", "w", "e", "e", "w", "w"],
+["w", "w", "e", "e", "w", "w", "w", "w", "e", "e", "w", "w", "e", "e", "w", "w", "w", "e", "e", "e", "e", "e", "w", "w", "w"],
+["w", "w", "e", "e", "e", "e", "e", "w", "w", "w", "w", "w", "e", "e", "w", "w", "w", "e", "e", "e", "e", "e", "w", "w", "w"],
+["w", "w", "e", "e", "e", "e", "e", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "e", "e", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w",]]; // 15 tall by 25 wide
+
+
 
 // Load all assets
 loadImages();
@@ -50,25 +71,27 @@ async function loadImages() {
   // https://pixijs.com/8.x/guides/components/assets#loading-multiple-assets
   PIXI.Assets.addBundle("sprites", {
     player: "images/playerImg.jpg",
+    lm: "images/MouseLeft.png",
+    rm: "images/MouseRight.png",
+    stair: "images/stairs.png",
+    wall: "images/wwall.jpg",
   });
 
   // The second argument is a callback function that is called whenever the loader makes progress.
   assets = await PIXI.Assets.loadBundle("sprites", (progress) => {
-    console.log(`progress=${(progress * 100).toFixed(2)}%`); // 0.4288 => 42.88%
+    // console.log(`progress=${(progress * 100).toFixed(2)}%`); // 0.4288 => 42.88%
   });
 
   setup();
 }
 
 async function setup() {
-  await app.init({ width: 850, height: 600 });
-
+  await app.init({ width: 850, height: 600,  backgroundColor: 0x1099bb });
   document.body.appendChild(app.canvas);
 
   stage = app.stage;
   sceneWidth = app.renderer.width;
   sceneHeight = app.renderer.height;
-
   // #1 - Create the `start` scene
   startScene = new PIXI.Container;
   stage.addChild(startScene);
@@ -93,9 +116,12 @@ async function setup() {
   // #8 - Start update loop
   app.ticker.add(gameLoop);
 
+  mouseSprites = loadSpriteSheet();
+
   // #9 - Start listening for click events on the canvas
   walls = [];
-  setupLevel(lvl1);
+  rats = [];
+  setupLevel(lvl2);
   // Now our `startScene` is visible
   // Clicking the button calls startGame()
 
@@ -156,22 +182,23 @@ async function setup() {
     });
 }
 
+// create text to sho on the screen
 function CreateLabelsAndButtons()
 {
   let buttonStyle = {
-    Fill: 0xff0000,
+    Fill: 0xffc320,
     fontSize: 48,
-    fontFamily: "Verdana",
+    fontFamily: "Comic Sans MS",
     stroke: 0xff0000,
     strokeThickness: 6,
   };
 
   // 1, set up startScene
   // 1A, make top start label
-  let startLabel = new PIXI.Text("Game", {
-    fill: 0xffffff,
+  let startLabel = new PIXI.Text("LIL Kity", {
+    fill: 0xCC00CC,
     fontSize: 96,
-    fontFamily: "Verdana",
+    fontFamily: "Comic Sans MS",
     stroke: 0xff0000,
     strokeThickness: 6,
   });
@@ -181,9 +208,9 @@ function CreateLabelsAndButtons()
 
   //1B, make middle start label
   let startLabel2 = new PIXI.Text("", {
-      fill: 0xffffff,
+      fill: 0x04ffAC,
       fontSize: 32,
-      fontFamily: "Verdana",
+      fontFamily: "Comic Sans MS",
       fontStyle: "italic",
       stroke: 0xff0000,
       strokeThickness: 6,
@@ -204,31 +231,21 @@ function CreateLabelsAndButtons()
   startScene.addChild(startButton);
 
   let textStyle = {
-    fill: 0xffffff,
+    fill: 0xCD7315,
     fontSize: 18,
-    fontFamily: "Verdana",
+    fontFamily: "Comic Sans MS",
     stroke: 0xff0000,
     strokeThickness: 4,
   };
 
-  scoreLabel = new PIXI.Text("", textStyle);
-  scoreLabel.x = 5;
-  scoreLabel.y = 5;
-  //gameScene.addChild(scoreLabel);
-  increaseScoreBy(0);
 
-  lifeLabel = new PIXI.Text("", textStyle);
-  lifeLabel.x = 5;
-  lifeLabel.y = 26;
-  //gameScene.addChild(lifeLabel);
-  decreaseLifeBy(0);
 
   // 3 - set up `gameOverScene`
   // 3A - make game over text
-  let gameOverText = new PIXI.Text("Game Over!\n        :-O", {
-    fill: 0xffffff,
+  let gameOverText = new PIXI.Text("YOU win!\n        ", {
+    fill: 0xcf3001,
     fontSize: 64,
-    fontFamily: "Futura",
+    fontFamily: "Comic Sans MS",
     stroke: 0xff0000,
     strokeThickness: 6,
   });
@@ -236,10 +253,10 @@ function CreateLabelsAndButtons()
   gameOverText.y = sceneHeight / 2 - 160;
   gameOverScene.addChild(gameOverText);
 
-  finalScoreText = new PIXI.Text(`Your final score : ${score}`, {
-    fill: 0xffffff,
-    fontSize: 24,
-    fontFamily: "Futura",
+  finalScoreText = new PIXI.Text(`le rat is ded`, {
+    fill: 0xf1234f,
+    fontSize: 50,
+    fontFamily: "Comic Sans MS",
     stroke: 0xff0000,
     strokeThickness: 6,
   });
@@ -248,22 +265,14 @@ function CreateLabelsAndButtons()
   gameOverScene.addChild(finalScoreText);
 
   // 3B - make "play again?" button
-  let playAgainButton = new PIXI.Text("Play Again?", buttonStyle);
-  playAgainButton.x = sceneWidth / 2 - playAgainButton.width / 2;
-  playAgainButton.y = sceneHeight - 100;
-  playAgainButton.interactive = true;
-  playAgainButton.buttonMode = true;
-  playAgainButton.on("pointerup", startGame); // startGame is a function reference
-  playAgainButton.on("pointerover", (e) => (e.target.alpha = 0.7)); // concise arrow function with no brackets
-  playAgainButton.on("pointerout", (e) => (e.currentTarget.alpha = 1.0)); // ditto
-  gameOverScene.addChild(playAgainButton);
+  
 }
 
 
 
 function startGame()
 {
-  console.log("startGame called");
+  // console.log("startGame called");
   startScene.visible = false;
   gameOverScene.visible = false;
   gameScene.visible = true;
@@ -271,8 +280,6 @@ function startGame()
   levelNum = 1;
   score = 0;
   life = 100;
-  increaseScoreBy(0);
-  decreaseLifeBy(0);
   loadLevel();
 
   setTimeout(() => {
@@ -285,18 +292,9 @@ function getLoc()
 
 }
 
-function increaseScoreBy(value)
-{
-  score += value;
-  scoreLabel.text = `Score:   ${score}`;
-}
 
-function decreaseLifeBy(value)
-{
-  life -= value;
-  life = parseInt(life);
-  lifeLabel.text = `Life:   ${life}%`;
-}
+
+
 
 function gameLoop()
 {
@@ -308,7 +306,16 @@ function gameLoop()
 
 
     // #2 - Move Player
-    player.update(playerMoveVector, walls);
+    player.update(playerMoveVector, walls, exit, rats);
+
+    for(let rat of rats)
+    {
+      if (rat != null)
+      {
+        rat.update(walls, player, rats);
+
+      }
+    }
   let mousePosition = app.renderer.events.pointer.global;
 
   let amt = 6 * dt;
@@ -336,60 +343,37 @@ function end()
   gameScene.visible = false;
 }
 
-function fireBullet()
-{
-  if (paused) return;
 
-  let b = new Bullet(0xffffff, ship.x, ship.y);
-  bullets.push(b);
-  gameScene.addChild(b);
-  if (score >= 5)
-  {
-    let b2 = new Bullet(0xffffff, ship.x + 10, ship.y);
-    bullets.push(b2);
-    gameScene.addChild(b2);
-
-    let b3 = new Bullet(0xffffff, ship.x - 10, ship.y);
-    bullets.push(b3);
-    gameScene.addChild(b3);
-  }
-  
-  shootSound.play();
-}
 
 function loadSpriteSheet()
 {
-  let spriteSheet  = PIXI.Texture.from("images/explosions.png");
-  let width = 64;
-  let height = 64;
-  let numFrames = 16;
+  let spriteSheet  = PIXI.Texture.from("images/mouse.png");
+  let width = 32;
+  let height = 32;
+  let numCols = 3;
+  let numRows = 4; 
+
   let textures = [];
-  for (let i = 0; i < numFrames; i++)
-  {
-    let frame = new PIXI.Texture({
-      source: spriteSheet,
-      frame: new PIXI.Rectangle(i * width, 64, width, height),
-    });
-    textures.push(frame);
+
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      let x = col * width; 
+      let y = row * height;
+
+      let frame = new PIXI.Texture({
+        source: spriteSheet,
+        frame: new PIXI.Rectangle(x, y, width, height),
+      });
+
+      textures.push(frame);
+    }
   }
+  // console.log(textures);
   return textures;
 }
 
-function createExplosion(x, y, frameWidth, frameHeight)
-{
-  let w2 = frameWidth / 2;
-  let h2 = frameHeight / 2;
-  let expl = new PIXI.AnimatedSprite(explosionTextures);
-  expl.x  = x - w2;
-  expl.y = y - h2;
-  expl.animationSpeed = 1 / 2;
-  expl.loop = false;
-  expl.onComplete = () => gameScene.removeChild(expl);
-  explosions.push(expl);
-  gameScene.addChild(expl);
-  expl.play();
-}
 
+// makes level based on level maps on top
 function setupLevel(lvlFile)
 {
   const tileWidth = ((sceneWidth / (lvlFile[1].length)));
@@ -399,18 +383,29 @@ function setupLevel(lvlFile)
     {
     for (let x = 0; x < lvlFile[y].length; x++)
       {
-        console.log(`grid[${y}][${x}] = ${lvlFile[y][x]}`);
+        // console.log(`grid[${y}][${x}] = ${lvlFile[y][x]}`);
         if (lvlFile[y][x] === "e")
         {
 
         }
         else if (lvlFile[y][x] === "w")
         {
-          let newWall = new Wall(assets.player, currLoc, tileWidth);
+          let newWall = new Wall(assets.wall, currLoc, tileWidth);
           walls.push(newWall);
           gameScene.addChild(newWall);
           
           
+        }
+        else if (lvlFile[y][x] === "r")
+        {
+          let nerat = new Rat(assets.lm, currLoc.x, currLoc.y, 1, tileWidth, assets.rm);
+          rats.push(nerat);
+          gameScene.addChild(nerat);
+        }
+        else if (lvlFile[y][x] === "x")
+        {
+            exit = new Exit(assets.stair, currLoc, tileWidth);
+            gameScene.addChild(exit);
         }
         currLoc.x += tileWidth;
       } 
@@ -418,6 +413,11 @@ function setupLevel(lvlFile)
       currLoc.y += tileWidth;
     }
 
-    console.log(walls);
+    // console.log(walls);
 }
 
+// removes killed rats from the array
+function THErATiSdEAD(rat)
+{
+  rats[rats.indexOf(rat)] = null;
+}
